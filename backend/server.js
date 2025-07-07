@@ -12,6 +12,13 @@ const agendamentosRoutes = require('./routes/agendamentos');
 const comerciaisRoutes = require('./routes/comerciais');
 const downloadyoutubeRoutes = require('./routes/downloadyoutube');
 const espectadoresRoutes = require('./routes/espectadores');
+const streamingRoutes = require('./routes/streaming');
+const relayRoutes = require('./routes/relay');
+const logosRoutes = require('./routes/logos');
+const transmissionSettingsRoutes = require('./routes/transmission-settings');
+const ftpRoutes = require('./routes/ftp');
+const whmcsRoutes = require('./routes/whmcs');
+const serversRoutes = require('./routes/servers');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -33,6 +40,13 @@ app.use('/api/agendamentos', agendamentosRoutes);
 app.use('/api/comerciais', comerciaisRoutes);
 app.use('/api/downloadyoutube', downloadyoutubeRoutes);
 app.use('/api/espectadores', espectadoresRoutes);
+app.use('/api/streaming', streamingRoutes);
+app.use('/api/relay', relayRoutes);
+app.use('/api/logos', logosRoutes);
+app.use('/api/transmission-settings', transmissionSettingsRoutes);
+app.use('/api/ftp', ftpRoutes);
+app.use('/api/whmcs', whmcsRoutes);
+app.use('/api/servers', serversRoutes);
 
 // Rota de teste
 app.get('/api/test', (req, res) => {
@@ -93,6 +107,7 @@ async function startServer() {
       console.log(`🚀 Servidor rodando na porta ${PORT}`);
       console.log(`📊 Health check: http://localhost:${PORT}/api/health`);
       console.log(`🔧 API test: http://localhost:${PORT}/api/test`);
+      console.log(`🎯 WHMCS webhook: http://localhost:${PORT}/api/whmcs/webhook`);
     });
   } catch (error) {
     console.error('❌ Erro ao iniciar servidor:', error);

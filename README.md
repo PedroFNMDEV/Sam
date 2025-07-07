@@ -1,57 +1,125 @@
-# Sistema de Streaming - Migração MySQL
+# Sistema de Streaming - Completo com Integração WHMCS e Wowza
 
-Este projeto foi migrado do Supabase para MySQL usando as tabelas do banco `db_SamCast`.
+Este projeto é um sistema completo de gerenciamento de streaming com integração ao WHMCS e servidor Wowza.
 
-## Configuração do Banco de Dados
+## 🚀 Funcionalidades Implementadas
 
-### Conexão MySQL
-- **Host:** 104.251.209.68
-- **Porta:** 35689
-- **Usuário:** root
-- **Senha:** Adr1an@
-- **Database:** db_SamCast
+### ✅ Autenticação e Usuários
+- Login/Registro com JWT
+- Middleware de autenticação
+- Integração com WHMCS para criação automática de contas
 
-### Tabelas Principais
-- **revendas:** Tabela de usuários do sistema
-- **playlists:** Playlists de vídeos
-- **playlists_videos:** Vídeos das playlists
-- **streamings:** Configurações de streaming (usado como pastas)
+### ✅ Gerenciamento de Conteúdo
+- **Pastas**: Organização de vídeos por pastas
+- **Vídeos**: Upload, listagem e reprodução
+- **Playlists**: Criação e gerenciamento de playlists
+- **Agendamentos**: Sistema de agendamento de transmissões
+- **Comerciais**: Configuração de inserção de comerciais
 
-## Estrutura do Projeto
+### ✅ Transmissão ao Vivo
+- **Iniciar Transmissão**: Interface completa para iniciar streams
+- **Múltiplas Plataformas**: YouTube, Facebook, Instagram, Twitch, etc.
+- **Configurações Avançadas**: Logos, qualidade, bitrate
+- **Relay RTMP**: Sistema de relay 24/7
 
-### Backend (`/backend`)
-- **config/database.js:** Configuração da conexão MySQL
-- **middlewares/authMiddleware.js:** Middleware de autenticação JWT
-- **routes/:** Rotas da API
-  - `auth.js` - Autenticação (login, registro, etc.)
-  - `folders.js` - Gerenciamento de pastas
-  - `videos.js` - Upload e gerenciamento de vídeos
-  - `playlists.js` - Gerenciamento de playlists
+### ✅ Análise e Monitoramento
+- **Espectadores**: Análise detalhada de audiência
+- **Geolocalização**: Mapa mundial de espectadores
+- **Estatísticas**: Tempo real e histórico
 
-### Frontend (`/src`)
-- **context/AuthContext.tsx:** Contexto de autenticação atualizado para MySQL
-- Componentes React mantidos com adaptações para nova API
+### ✅ Ferramentas Avançadas
+- **Download YouTube**: Baixar vídeos do YouTube
+- **Migração FTP**: Migrar vídeos de servidores FTP
+- **Players**: Múltiplos tipos de players para diferentes dispositivos
 
-## Funcionalidades
+### ✅ Integração Wowza
+- Configuração automática de aplicações
+- Push para múltiplas plataformas
+- Gerenciamento de streams
+- Estatísticas em tempo real
+
+### ✅ Integração WHMCS
+- Webhook para criação automática de contas
+- Sincronização de status (ativo/suspenso/terminado)
+- Configuração baseada em produtos WHMCS
+
+## 🛠️ Configuração
+
+### Banco de Dados MySQL
+```bash
+Host: 104.251.209.68
+Porta: 35689
+Usuário: admin
+Senha: Adr1an@
+Database: db_SamCast
+```
+
+### Servidor Wowza
+```bash
+Host: 51.222.156.223
+Porta: 6980
+Usuário: admin
+Senha: FK38Ca2SuE6jvJXed97VMn
+Aplicação: live
+```
+
+### Variáveis de Ambiente
+```env
+# Banco de dados
+DB_HOST=104.251.209.68
+DB_PORT=35689
+DB_USER=admin
+DB_PASSWORD=Adr1an@
+DB_NAME=db_SamCast
+
+# Wowza
+WOWZA_HOST=51.222.156.223
+WOWZA_PORT=6980
+WOWZA_USER=admin
+WOWZA_PASSWORD=FK38Ca2SuE6jvJXed97VMn
+WOWZA_APPLICATION=live
+
+# JWT
+JWT_SECRET=sua_chave_secreta_super_segura_aqui
+```
+
+## 📡 API Endpoints
 
 ### Autenticação
-- Login com email/senha usando tabela `revendas`
-- Registro de novos usuários
-- JWT para autenticação
-- Middleware de proteção de rotas
+- `POST /api/auth/login` - Login
+- `POST /api/auth/register` - Registro
+- `GET /api/auth/me` - Dados do usuário
 
-### Gerenciamento de Vídeos
-- Upload de vídeos para o Wowza
-- Organização por pastas (baseado na tabela `streamings`)
-- Cada usuário tem sua pasta no Wowza: `/usr/local/WowzaStreamingEngine/content/{userEmail}/`
-- Suporte a formatos: MP4, AVI, MOV, WMV, FLV, WebM, MKV
+### Streaming
+- `GET /api/streaming/status` - Status da transmissão
+- `POST /api/streaming/start` - Iniciar transmissão
+- `POST /api/streaming/stop` - Parar transmissão
+- `GET /api/streaming/platforms` - Plataformas disponíveis
+- `POST /api/streaming/configure-platform` - Configurar plataforma
 
-### Playlists
-- Criação e edição de playlists
-- Organização de vídeos por ordem
-- Integração com sistema de agendamentos
+### Relay RTMP
+- `GET /api/relay/status` - Status do relay
+- `POST /api/relay/start` - Iniciar relay
+- `POST /api/relay/stop` - Parar relay
+- `POST /api/relay/validate-url` - Validar URL
 
-## Como Executar
+### Conteúdo
+- `GET /api/folders` - Listar pastas
+- `GET /api/videos` - Listar vídeos
+- `GET /api/playlists` - Listar playlists
+- `GET /api/agendamentos` - Listar agendamentos
+- `GET /api/comerciais` - Configurações de comerciais
+
+### Ferramentas
+- `POST /api/downloadyoutube` - Download do YouTube
+- `POST /api/ftp/connect` - Conectar FTP
+- `POST /api/ftp/migrate` - Migrar vídeos FTP
+
+### WHMCS Integration
+- `POST /api/whmcs/webhook` - Webhook do WHMCS
+- `GET /api/whmcs/test` - Teste da integração
+
+## 🔧 Como Executar
 
 ### Pré-requisitos
 - Node.js 18+
@@ -60,7 +128,7 @@ Este projeto foi migrado do Supabase para MySQL usando as tabelas do banco `db_S
 
 ### Instalação
 ```bash
-# Instalar dependências do frontend
+# Instalar dependências
 npm install
 
 # Instalar dependências do backend
@@ -69,12 +137,12 @@ npm install
 cd ..
 ```
 
-### Executar em Desenvolvimento
+### Executar
 ```bash
-# Executar frontend e backend simultaneamente
+# Executar frontend e backend
 npm run dev
 
-# Ou executar separadamente:
+# Ou separadamente:
 npm run dev:frontend  # Frontend na porta 3000
 npm run dev:backend   # Backend na porta 3001
 ```
@@ -83,66 +151,130 @@ npm run dev:backend   # Backend na porta 3001
 - **Frontend:** http://localhost:3000
 - **Backend API:** http://localhost:3001/api
 - **Health Check:** http://localhost:3001/api/health
+- **WHMCS Webhook:** http://localhost:3001/api/whmcs/webhook
 
-## Estrutura de Pastas no Wowza
+## 🔗 Integração WHMCS
 
+### Configuração do Módulo WHMCS
+1. Copie o arquivo `stmvideoadvance.php` para `/modules/servers/`
+2. Configure o servidor no WHMCS:
+   - **Name:** Nome do servidor
+   - **Hostname:** URL da API (ex: http://localhost:3001)
+   - **IP Address:** Chave API (não usado atualmente)
+
+### Webhook Configuration
+Configure o webhook no WHMCS para apontar para:
 ```
-/usr/local/WowzaStreamingEngine/content/
-├── usuario1/
-│   ├── pasta1/
-│   │   ├── video1.mp4
-│   │   └── video2.mp4
-│   └── pasta2/
-│       └── video3.mp4
-└── usuario2/
-    └── default/
-        └── video4.mp4
+http://seu-dominio.com/api/whmcs/webhook
 ```
 
-## API Endpoints
+### Produtos WHMCS
+Configure os produtos com as seguintes opções:
+- **Espectadores:** Número máximo de espectadores
+- **Bitrate:** Limite de bitrate
+- **Espaço FTP:** Espaço em megabytes
+- **Aplicação:** live, tvstation, vod, ipcamera
+- **Idioma:** pt-br, en-us, es
 
-### Autenticação
-- `POST /api/auth/login` - Login
-- `POST /api/auth/register` - Registro
-- `POST /api/auth/forgot-password` - Recuperar senha
-- `GET /api/auth/me` - Dados do usuário logado
+## 🎯 Funcionalidades por Página
 
-### Pastas
-- `GET /api/folders` - Listar pastas
-- `POST /api/folders` - Criar pasta
-- `DELETE /api/folders/:id` - Remover pasta
+### Dashboard
+- Visão geral das transmissões
+- Player universal integrado
+- Estatísticas em tempo real
+- Atalhos para principais funcionalidades
 
-### Vídeos
-- `GET /api/videos?folder_id=X` - Listar vídeos da pasta
-- `POST /api/videos/upload?folder_id=X` - Upload de vídeo
-- `DELETE /api/videos/:id` - Remover vídeo
+### Iniciar Transmissão
+- Configuração de múltiplas plataformas
+- Upload e gerenciamento de logos
+- Configurações avançadas de transmissão
+- Preview em tempo real
+
+### Gerenciar Vídeos
+- Upload de vídeos com drag & drop
+- Organização por pastas
+- Player integrado
+- Suporte a múltiplos formatos
 
 ### Playlists
-- `GET /api/playlists` - Listar playlists
-- `POST /api/playlists` - Criar playlist
-- `GET /api/playlists/:id/videos` - Vídeos da playlist
-- `PUT /api/playlists/:id` - Atualizar playlist
-- `DELETE /api/playlists/:id` - Remover playlist
+- Criação com drag & drop
+- Reordenação de vídeos
+- Preview de playlists
+- Integração com agendamentos
 
-## Segurança
+### Agendamentos
+- Calendário visual
+- Agendamento recorrente
+- Múltiplas frequências
+- Playlist de finalização
+
+### Espectadores
+- Mapa mundial em tempo real
+- Análise por país/dispositivo
+- Histórico de audiência
+- Exportação de dados
+
+### Players
+- Player universal responsivo
+- Múltiplos tipos de incorporação
+- Configurações personalizáveis
+- Códigos prontos para uso
+
+## 🔒 Segurança
 
 - Autenticação JWT
 - Validação de propriedade de recursos
-- Sanitização de nomes de arquivos
-- Validação de tipos de arquivo
-- Middleware de tratamento de erros
+- Sanitização de uploads
+- Rate limiting (recomendado para produção)
+- CORS configurado
 
-## Observações
+## 📊 Monitoramento
 
-1. **Migração de Dados:** Os dados existentes no Supabase precisam ser migrados manualmente para o MySQL
-2. **Wowza:** Certifique-se de que o servidor Wowza está configurado e acessível
-3. **Permissões:** O servidor precisa ter permissões de escrita na pasta do Wowza
-4. **Backup:** Sempre faça backup dos dados antes de executar migrações
+- Health check endpoint
+- Logs estruturados
+- Métricas de performance
+- Alertas de erro (recomendado para produção)
 
-## Próximos Passos
+## 🚀 Deploy
 
-1. Implementar outras funcionalidades (agendamentos, comerciais, etc.)
-2. Adicionar sistema de logs
-3. Implementar monitoramento de espaço em disco
-4. Adicionar compressão de vídeos
-5. Implementar sistema de notificações
+### Produção
+1. Configure as variáveis de ambiente
+2. Execute as migrações do banco
+3. Configure o servidor web (Nginx/Apache)
+4. Configure SSL/TLS
+5. Configure monitoramento
+
+### Docker (Opcional)
+```dockerfile
+# Dockerfile exemplo para produção
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+EXPOSE 3001
+CMD ["npm", "start"]
+```
+
+## 📝 Próximos Passos
+
+1. ✅ Implementar cache Redis
+2. ✅ Adicionar testes automatizados
+3. ✅ Configurar CI/CD
+4. ✅ Implementar logs estruturados
+5. ✅ Adicionar métricas de performance
+6. ✅ Configurar backup automático
+7. ✅ Implementar notificações push
+8. ✅ Adicionar suporte a WebRTC
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature
+3. Commit suas mudanças
+4. Push para a branch
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
